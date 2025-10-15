@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Recovery Dashboard - Addiction Management</title>
+    <title>Recovery Goals - Recovery Hub</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <style>
         body {
@@ -21,564 +21,36 @@
             box-sizing: border-box;
         }
 
-        /* Layout System */
-        .dashboard-container {
-            display: flex;
-            flex-direction: column;
-            min-height: 100vh;
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 32px 24px;
         }
 
-        /* Top Navigation */
-        .top-nav {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 64px;
-            padding: 12px 24px;
-            background: #FFFFFF;
-            border-bottom: 1px solid #E0E0E0;
+        /* Header */
+        .page-header {
             display: flex;
-            align-items: center;
             justify-content: space-between;
-            z-index: 1000;
-            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
-        }
-
-        .nav-left {
-            display: flex;
             align-items: center;
-            gap: 24px;
-        }
-
-        /* Toggle Menu */
-        .toggle-menu {
-            width: 40px;
-            height: 40px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            background: transparent;
-            border: none;
-            cursor: pointer;
-            border-radius: 8px;
-            color: #666666;
-            transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
-            font-size: 18px;
-        }
-
-        .toggle-menu:hover {
-            background: #F5F7FA;
-            color: #333333;
-        }
-
-        .toggle-menu:focus {
-            outline: 2px solid #7B2CBF;
-            outline-offset: 2px;
-        }
-
-        .top-nav-logo {
-            font-size: 20px;
-            font-weight: 700;
-            color: #7B2CBF;
-            display: flex;
-            align-items: center;
-            gap: 8px;
+            margin-bottom: 40px;
+            padding-bottom: 24px;
+            border-bottom: 2px solid #E8E8E8;
         }
 
         .page-title {
-            font-size: 18px;
-            font-weight: 600;
-            color: #333333;
-            margin: 0;
-        }
-
-        .user-section {
             display: flex;
             align-items: center;
             gap: 16px;
-        }
-
-        .user-avatar {
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-            background: linear-gradient(135deg, #7B2CBF, #6C63FF);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: white;
-            font-weight: 600;
-            font-size: 16px;
-        }
-
-        .logout-btn {
-            background: #333333;
-            color: #FFFFFF;
-            border: none;
-            padding: 8px 16px;
-            border-radius: 8px;
-            font-weight: 500;
-            cursor: pointer;
-            transition: all 0.2s ease;
-            font-size: 14px;
-        }
-
-        .logout-btn:hover {
-            background: #1a1a1a;
-            transform: translateY(-1px);
-        }
-
-        /* Sidebar Navigation */
-        .sidebar {
-            position: fixed;
-            top: 64px;
-            left: 0;
-            width: 250px;
-            height: calc(100vh - 64px);
-            background: #FFFFFF;
-            border-right: 1px solid #E0E0E0;
-            padding: 20px 0;
-            overflow-y: auto;
-            overflow-x: hidden;
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-            z-index: 999;
-        }
-
-        .sidebar.collapsed {
-            width: 80px;
-        }
-
-        .sidebar-content {
-            padding: 0 16px;
-        }
-
-        .nav-menu {
-            list-style: none;
-            padding: 0;
-            margin: 0;
-        }
-
-        .nav-item {
-            margin: 0 0 8px 0;
-        }
-
-        .nav-link {
-            display: flex;
-            align-items: center;
-            padding: 12px 16px;
-            color: #666666;
-            text-decoration: none;
-            border-radius: 8px;
-            font-weight: 500;
-            font-size: 14px;
-            transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
-            position: relative;
-            margin: 0 16px;
-        }
-
-        .nav-link:hover {
-            background: #F5F7FA;
-            color: #333333;
-            transform: translateX(2px);
-        }
-
-        .nav-link.active {
-            background: #7B2CBF;
-            color: #FFFFFF;
-        }
-
-        .nav-link.active::before {
-            content: '';
-            position: absolute;
-            left: -16px;
-            top: 50%;
-            transform: translateY(-50%);
-            width: 4px;
-            height: 24px;
-            background: #7B2CBF;
-            border-radius: 0 2px 2px 0;
-        }
-
-        .nav-icon {
-            margin-right: 12px;
-            min-width: 20px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-
-        .nav-icon svg {
-            width: 20px;
-            height: 20px;
-            fill: currentColor;
-        }
-
-        .nav-text {
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-            white-space: nowrap;
-        }
-
-        .collapsed .nav-text {
-            opacity: 0;
-            width: 0;
-            overflow: hidden;
-        }
-
-        .collapsed .nav-link {
-            margin: 0 8px;
-            justify-content: center;
-        }
-
-        .collapsed .nav-icon {
-            margin-right: 0;
-        }
-
-        /* Main Content Area */
-        .main-content {
-            flex: 1;
-            margin-left: 250px;
-            margin-top: 64px;
-            background: #F8F9FA;
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-        }
-
-        .main-content.sidebar-collapsed {
-            margin-left: 80px;
-        }
-
-        /* Dashboard Grid */
-        .dashboard-content {
-            padding: 32px;
-            flex: 1;
-        }
-
-        .hero-section {
-            margin-bottom: 32px;
-        }
-
-        .hero-card {
-            background: linear-gradient(135deg, #7B2CBF 0%, #20B2AA 100%);
-            border-radius: 20px;
-            padding: 40px;
-            color: white;
-            text-align: center;
-            box-shadow: 0 20px 40px rgba(123, 44, 191, 0.15);
-            position: relative;
-            overflow: hidden;
-        }
-
-        .hero-card::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            height: 4px;
-            background: linear-gradient(90deg, #FFD700, #FF6B6B, #4ECDC4);
-        }
-
-        .hero-metric {
-            font-size: 56px;
+            font-size: 32px;
             font-weight: 700;
-            margin-bottom: 12px;
-            line-height: 1.1;
-            letter-spacing: -0.02em;
-        }
-
-        .hero-label {
-            font-size: 20px;
-            opacity: 0.9;
-            margin-bottom: 20px;
-            font-weight: 500;
-        }
-
-        .hero-message {
-            font-size: 16px;
-            font-style: italic;
-            opacity: 0.8;
-            max-width: 400px;
-            margin: 0 auto;
-        }
-
-        .cards-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
-            gap: 28px;
-            margin-bottom: 32px;
-        }
-
-        /* Premium Card Components */
-        .card {
-            background: #FFFFFF;
-            border: 1px solid #E8E8E8;
-            border-radius: 20px;
-            padding: 0;
-            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.06);
-            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-            overflow: hidden;
-            position: relative;
-        }
-
-        .card::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            height: 3px;
-            background: linear-gradient(90deg, transparent, transparent);
-            transition: all 0.4s ease;
-        }
-
-        .card:hover {
-            transform: translateY(-8px);
-            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.12);
-        }
-
-        .card:hover::before {
-            background: linear-gradient(90deg, #7B2CBF, #6C63FF, #20B2AA);
-        }
-
-        .card.featured {
-            background: linear-gradient(135deg, #7B2CBF 0%, #6C63FF 100%);
-            color: white;
-        }
-
-        .card.featured::before {
-            background: linear-gradient(90deg, #FFD700, #FF6B6B, #4ECDC4);
-        }
-
-        .card-header {
-            padding: 28px 28px 0;
-            display: flex;
-            justify-content: space-between;
-            align-items: flex-start;
-        }
-
-        .card-title {
-            font-size: 18px;
-            font-weight: 600;
             color: #333333;
             margin: 0;
-            letter-spacing: -0.01em;
         }
 
-        .card.featured .card-title {
-            color: white;
-        }
-
-        .card-menu {
-            background: none;
-            border: none;
-            color: #666666;
-            cursor: pointer;
-            padding: 8px;
-            border-radius: 8px;
-            transition: all 0.2s ease;
-            font-size: 16px;
-        }
-
-        .card-menu:hover {
-            background: #F5F7FA;
-            color: #333333;
-        }
-
-        .card.featured .card-menu {
-            color: rgba(255, 255, 255, 0.8);
-        }
-
-        .card.featured .card-menu:hover {
-            background: rgba(255, 255, 255, 0.1);
-            color: white;
-        }
-
-        .card-body {
-            padding: 20px 28px 28px;
-        }
-
-        .card-metric {
-            font-size: 36px;
-            font-weight: 700;
-            background: linear-gradient(135deg, #7B2CBF, #6C63FF);
-            background-clip: text;
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            margin-bottom: 12px;
-            line-height: 1.2;
-            letter-spacing: -0.02em;
-        }
-
-        .card.featured .card-metric {
-            background: linear-gradient(135deg, #FFD700, #FF6B6B);
-            background-clip: text;
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-        }
-
-        .card-subtitle {
-            font-size: 14px;
-            color: #666666;
-            margin-bottom: 20px;
-            font-weight: 500;
-        }
-
-        .card.featured .card-subtitle {
-            color: rgba(255, 255, 255, 0.8);
-        }
-
-        .card-stats {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
-            gap: 16px;
-            margin: 20px 0;
-        }
-
-        .stat-item {
-            text-align: center;
-            padding: 16px;
-            background: #F8F9FA;
-            border-radius: 12px;
-        }
-
-        .card.featured .stat-item {
-            background: rgba(255, 255, 255, 0.1);
-        }
-
-        .stat-value {
-            font-size: 20px;
-            font-weight: 700;
-            color: #7B2CBF;
-            margin-bottom: 4px;
-        }
-
-        .card.featured .stat-value {
-            color: white;
-        }
-
-        .stat-label {
-            font-size: 12px;
-            color: #666666;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-            font-weight: 500;
-        }
-
-        .card.featured .stat-label {
-            color: rgba(255, 255, 255, 0.7);
-        }
-
-        .card-footer {
-            padding: 20px 28px;
-            background: #FAFBFC;
-            border-top: 1px solid #F0F0F0;
-            font-size: 12px;
-            color: #666666;
-            text-transform: uppercase;
-            font-weight: 500;
-            letter-spacing: 0.5px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .card.featured .card-footer {
-            background: rgba(255, 255, 255, 0.05);
-            border-top: 1px solid rgba(255, 255, 255, 0.1);
-            color: rgba(255, 255, 255, 0.7);
-        }
-
-        .footer-status {
-            display: flex;
-            align-items: center;
-            gap: 6px;
-        }
-
-        .status-dot {
-            width: 6px;
-            height: 6px;
-            border-radius: 50%;
-            background: #00A651;
-        }
-
-        /* Progress Components */
-        .progress-circular {
-            position: relative;
-            width: 100px;
-            height: 100px;
-            margin: 0 auto 20px;
-        }
-
-        .progress-circle {
-            transform: rotate(-90deg);
-        }
-
-        .progress-text {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            font-size: 20px;
-            font-weight: 700;
-            color: #7B2CBF;
-        }
-
-        .card.featured .progress-text {
-            color: white;
-        }
-
-        .progress-bar-container {
-            margin: 20px 0;
-        }
-
-        .progress-bar-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 10px;
-        }
-
-        .progress-bar-label {
-            font-size: 14px;
-            color: #666666;
-            font-weight: 500;
-        }
-
-        .card.featured .progress-bar-label {
-            color: rgba(255, 255, 255, 0.8);
-        }
-
-        .progress-bar-value {
-            font-size: 14px;
-            color: #333333;
-            font-weight: 600;
-        }
-
-        .card.featured .progress-bar-value {
-            color: white;
-        }
-
-        .progress-bar {
-            width: 100%;
-            height: 8px;
-            background: #F0F0F0;
-            border-radius: 4px;
-            overflow: hidden;
-        }
-
-        .card.featured .progress-bar {
-            background: rgba(255, 255, 255, 0.2);
-        }
-
-        .progress-fill {
-            height: 100%;
-            background: linear-gradient(90deg, #6C63FF, #7B2CBF);
-            border-radius: 4px;
-            transition: width 0.8s cubic-bezier(0.4, 0, 0.2, 1);
-        }
-
-        .card.featured .progress-fill {
-            background: linear-gradient(90deg, #FFD700, #FF6B6B);
+        .page-title svg {
+            width: 36px;
+            height: 36px;
+            fill: #7B2CBF;
         }
 
         /* Buttons */
@@ -633,6 +105,17 @@
             box-shadow: 0 8px 24px rgba(0, 166, 81, 0.4);
         }
 
+        .btn-danger {
+            background: linear-gradient(135deg, #DC2626, #EF4444);
+            color: #FFFFFF;
+            box-shadow: 0 4px 16px rgba(220, 38, 38, 0.3);
+        }
+
+        .btn-danger:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 24px rgba(220, 38, 38, 0.4);
+        }
+
         .btn-icon {
             width: 44px;
             height: 44px;
@@ -640,7 +123,6 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            position: relative;
         }
 
         .btn svg {
@@ -649,162 +131,547 @@
             fill: currentColor;
         }
 
-        /* Lists */
-        .data-list {
-            list-style: none;
-            padding: 0;
-            margin: 0;
+        /* Goal Statistics */
+        .goal-stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 24px;
+            margin-bottom: 40px;
         }
 
-        .data-item {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 16px 0;
-            border-bottom: 1px solid #F0F0F0;
+        .stat-card {
+            background: #FFFFFF;
+            border-radius: 20px;
+            padding: 28px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.06);
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
         }
 
-        .card.featured .data-item {
-            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        .stat-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, #7B2CBF, #6C63FF, #20B2AA);
         }
 
-        .data-item:last-child {
-            border-bottom: none;
+        .stat-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 16px 48px rgba(0, 0, 0, 0.12);
         }
 
-        .data-label {
-            font-size: 14px;
-            color: #333333;
+        .stat-value {
+            font-size: 36px;
+            font-weight: 700;
+            background: linear-gradient(135deg, #7B2CBF, #6C63FF);
+            background-clip: text;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 8px;
+            line-height: 1.2;
+        }
+
+        .stat-label {
+            font-size: 16px;
+            color: #666666;
             font-weight: 500;
         }
 
-        .card.featured .data-label {
-            color: white;
+        .stat-description {
+            font-size: 14px;
+            color: #888888;
+            margin-top: 8px;
         }
 
-        .data-value {
+        /* Filter and Sort */
+        .controls {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 32px;
+            flex-wrap: wrap;
+            gap: 16px;
+        }
+
+        .filter-group {
+            display: flex;
+            gap: 12px;
+            align-items: center;
+        }
+
+        .filter-btn {
+            padding: 8px 16px;
+            border: 2px solid #E0E0E0;
+            background: #FFFFFF;
+            border-radius: 20px;
             font-size: 14px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s ease;
             color: #666666;
         }
 
-        .card.featured .data-value {
-            color: rgba(255, 255, 255, 0.8);
+        .filter-btn.active {
+            background: #7B2CBF;
+            color: #FFFFFF;
+            border-color: #7B2CBF;
         }
 
+        .filter-btn:hover:not(.active) {
+            border-color: #7B2CBF;
+            color: #7B2CBF;
+        }
+
+        .search-box {
+            padding: 12px 16px;
+            border: 2px solid #E0E0E0;
+            border-radius: 12px;
+            font-size: 14px;
+            width: 250px;
+            transition: all 0.2s ease;
+        }
+
+        .search-box:focus {
+            outline: none;
+            border-color: #7B2CBF;
+            box-shadow: 0 0 0 3px rgba(123, 44, 191, 0.1);
+        }
+
+        /* Goal Items */
+        .goals-list {
+            display: flex;
+            flex-direction: column;
+            gap: 24px;
+        }
+
+        .goal-item {
+            background: #FFFFFF;
+            border: 2px solid #E8E8E8;
+            border-radius: 20px;
+            padding: 32px;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .goal-item::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: transparent;
+            transition: all 0.3s ease;
+        }
+
+        .goal-item:hover {
+            border-color: #7B2CBF;
+            transform: translateY(-4px);
+            box-shadow: 0 12px 40px rgba(0, 0, 0, 0.1);
+        }
+
+        .goal-item:hover::before {
+            background: linear-gradient(90deg, #7B2CBF, #6C63FF, #20B2AA);
+        }
+
+        .goal-item.completed {
+            border-color: #00A651;
+            background: linear-gradient(135deg, #F0FDF4, #FFFFFF);
+        }
+
+        .goal-item.completed::before {
+            background: linear-gradient(90deg, #00A651, #20B2AA);
+        }
+
+        .goal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 20px;
+        }
+
+        .goal-title {
+            font-size: 24px;
+            font-weight: 600;
+            color: #333333;
+            margin: 0 0 8px 0;
+            line-height: 1.3;
+        }
+
+        .goal-category {
+            font-size: 14px;
+            color: #7B2CBF;
+            font-weight: 500;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .goal-actions {
+            display: flex;
+            gap: 8px;
+            align-items: center;
+        }
+
+        .goal-description {
+            color: #666666;
+            margin-bottom: 24px;
+            line-height: 1.6;
+            font-size: 16px;
+        }
+
+        .goal-meta {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+            gap: 20px;
+            margin-bottom: 24px;
+        }
+
+        .goal-meta-item {
+            text-align: center;
+            padding: 16px;
+            background: #F8F9FA;
+            border-radius: 12px;
+            transition: all 0.2s ease;
+        }
+
+        .goal-item.completed .goal-meta-item {
+            background: rgba(0, 166, 81, 0.1);
+        }
+
+        .goal-meta-item:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+        }
+
+        .goal-meta-value {
+            font-size: 20px;
+            font-weight: 700;
+            color: #7B2CBF;
+            margin-bottom: 4px;
+        }
+
+        .goal-item.completed .goal-meta-value {
+            color: #00A651;
+        }
+
+        .goal-meta-label {
+            font-size: 12px;
+            color: #666666;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            font-weight: 500;
+        }
+
+        /* Progress Bar */
+        .progress-container {
+            margin-bottom: 20px;
+        }
+
+        .progress-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 12px;
+        }
+
+        .progress-label {
+            font-size: 14px;
+            color: #666666;
+            font-weight: 500;
+        }
+
+        .progress-percentage {
+            font-size: 14px;
+            color: #333333;
+            font-weight: 600;
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 12px;
+            background: #F0F0F0;
+            border-radius: 6px;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #7B2CBF, #6C63FF);
+            border-radius: 6px;
+            transition: width 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+        }
+
+        .goal-item.completed .progress-fill {
+            background: linear-gradient(90deg, #00A651, #20B2AA);
+        }
+
+        .progress-fill::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+            animation: shimmer 2s infinite;
+        }
+
+        @keyframes shimmer {
+            0% { transform: translateX(-100%); }
+            100% { transform: translateX(100%); }
+        }
+
+        /* Status Badges */
         .status-badge {
-            padding: 6px 12px;
-            border-radius: 16px;
-            font-size: 11px;
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 12px;
             font-weight: 600;
             text-transform: uppercase;
             letter-spacing: 0.5px;
         }
 
-        .status-high {
-            background: #FEE2E2;
-            color: #DC2626;
-        }
-
-        .status-medium {
-            background: #FEF3C7;
-            color: #D97706;
-        }
-
-        .status-low {
+        .status-completed {
             background: #D1FAE5;
             color: #059669;
         }
 
-        /* Tooltip */
-        .tooltip {
+        .status-in-progress {
+            background: #DBEAFE;
+            color: #2563EB;
+        }
+
+        .status-pending {
+            background: #FEF3C7;
+            color: #D97706;
+        }
+
+        .status-overdue {
+            background: #FEE2E2;
+            color: #DC2626;
+        }
+
+        /* Modal */
+        .modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+            backdrop-filter: blur(4px);
+        }
+
+        .modal.show {
+            display: flex;
+        }
+
+        .modal-content {
+            background: #FFFFFF;
+            border-radius: 24px;
+            padding: 40px;
+            max-width: 600px;
+            width: 90%;
+            max-height: 90vh;
+            overflow-y: auto;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
             position: relative;
         }
 
-        .tooltip::after {
-            content: attr(data-tooltip);
-            position: absolute;
-            bottom: 100%;
-            left: 50%;
-            transform: translateX(-50%);
-            background: #333333;
-            color: white;
-            padding: 8px 12px;
-            border-radius: 6px;
-            font-size: 12px;
-            white-space: nowrap;
-            opacity: 0;
-            pointer-events: none;
-            transition: opacity 0.3s ease;
-            z-index: 1000;
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 32px;
+            padding-bottom: 20px;
+            border-bottom: 2px solid #F0F0F0;
         }
 
-        .tooltip:hover::after {
-            opacity: 1;
+        .modal-title {
+            font-size: 24px;
+            font-weight: 600;
+            color: #333333;
+            margin: 0;
+        }
+
+        .modal-close {
+            background: none;
+            border: none;
+            font-size: 28px;
+            cursor: pointer;
+            color: #666666;
+            padding: 8px;
+            border-radius: 8px;
+            transition: all 0.2s ease;
+        }
+
+        .modal-close:hover {
+            color: #333333;
+            background: #F5F7FA;
+        }
+
+        /* Forms */
+        .form-group {
+            margin-bottom: 24px;
+        }
+
+        .form-label {
+            display: block;
+            font-size: 14px;
+            font-weight: 600;
+            color: #333333;
+            margin-bottom: 8px;
+        }
+
+        .form-input {
+            width: 100%;
+            padding: 14px 16px;
+            border: 2px solid #E0E0E0;
+            border-radius: 12px;
+            font-size: 14px;
+            font-family: inherit;
+            transition: all 0.2s ease;
+            background: #FFFFFF;
+        }
+
+        .form-input:focus {
+            outline: none;
+            border-color: #7B2CBF;
+            box-shadow: 0 0 0 3px rgba(123, 44, 191, 0.1);
+        }
+
+        .form-textarea {
+            min-height: 120px;
+            resize: vertical;
+        }
+
+        .form-select {
+            appearance: none;
+            background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3e%3cpath stroke='%236b7280' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='m6 8 4 4 4-4'/%3e%3c/svg%3e");
+            background-position: right 12px center;
+            background-repeat: no-repeat;
+            background-size: 16px;
+            padding-right: 40px;
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+
+        .form-actions {
+            display: flex;
+            gap: 16px;
+            justify-content: flex-end;
+            margin-top: 32px;
+            padding-top: 24px;
+            border-top: 2px solid #F0F0F0;
+        }
+
+        /* Empty State */
+        .empty-state {
+            text-align: center;
+            padding: 80px 40px;
+            color: #666666;
+        }
+
+        .empty-state svg {
+            width: 80px;
+            height: 80px;
+            fill: #E0E0E0;
+            margin-bottom: 24px;
+        }
+
+        .empty-state h3 {
+            font-size: 20px;
+            font-weight: 600;
+            color: #333333;
+            margin-bottom: 12px;
+        }
+
+        .empty-state p {
+            font-size: 16px;
+            margin-bottom: 24px;
+            max-width: 400px;
+            margin-left: auto;
+            margin-right: auto;
         }
 
         /* Responsive Design */
-        @media (max-width: 1024px) {
-            .sidebar {
-                transform: translateX(-100%);
-            }
-            
-            .sidebar.mobile-open {
-                transform: translateX(0);
-            }
-            
-            .main-content {
-                margin-left: 0;
-            }
-            
-            .cards-grid {
-                grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-                gap: 20px;
-            }
-            
-            .dashboard-content {
+        @media (max-width: 768px) {
+            .container {
                 padding: 24px 16px;
             }
-        }
 
-        @media (max-width: 768px) {
-            .top-nav {
-                padding: 12px 16px;
+            .page-header {
+                flex-direction: column;
+                gap: 20px;
+                align-items: flex-start;
             }
-            
-            .hero-card {
-                padding: 32px 24px;
+
+            .page-title {
+                font-size: 28px;
             }
-            
-            .hero-metric {
-                font-size: 42px;
+
+            .controls {
+                flex-direction: column;
+                align-items: stretch;
             }
-            
-            .cards-grid {
+
+            .filter-group {
+                justify-content: center;
+                flex-wrap: wrap;
+            }
+
+            .search-box {
+                width: 100%;
+            }
+
+            .goal-meta {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .form-row {
                 grid-template-columns: 1fr;
             }
-            
-            .top-nav-logo {
-                font-size: 18px;
+
+            .modal-content {
+                padding: 24px;
+                margin: 16px;
             }
-            
-            .nav-left {
-                gap: 16px;
+
+            .form-actions {
+                flex-direction: column;
             }
         }
 
         /* Focus States for Accessibility */
-        .nav-link:focus,
         .btn:focus,
-        .card-menu:focus,
-        .toggle-menu:focus {
+        .filter-btn:focus,
+        .search-box:focus,
+        .form-input:focus,
+        .form-textarea:focus,
+        .form-select:focus {
             outline: 2px solid #7B2CBF;
             outline-offset: 2px;
         }
 
         /* High Contrast Mode Support */
         @media (prefers-contrast: high) {
-            .card {
-                border-width: 2px;
+            .goal-item {
+                border-width: 3px;
             }
             
             .progress-bar {
@@ -823,490 +690,779 @@
     </style>
 </head>
 <body>
-    <div class="dashboard-container" id="dashboardContainer">
-        <!-- Top Navigation -->
-        <header class="top-nav">
-            <div class="nav-left">
-                <button class="toggle-menu" onclick="toggleSidebar()" aria-label="Toggle sidebar">
-                    <span id="toggleIcon">☰</span>
-                </button>
-                <div class="top-nav-logo">
-                    <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
-                        <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/>
-                    </svg>
-                    <span>Recovery Hub</span>
-                </div>
-                <h1 class="page-title" id="pageTitle">Dashboard</h1>
-            </div>
-            <div class="user-section">
-                <div class="user-avatar" aria-label="User avatar">S</div>
-                <button class="logout-btn" onclick="handleLogout()">Logout</button>
-            </div>
+    <div class="container">
+        <!-- Page Header -->
+        <header class="page-header">
+            <h1 class="page-title">
+                <svg viewBox="0 0 24 24">
+                    <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
+                </svg>
+                Recovery Goals
+            </h1>
+            <button class="btn btn-primary" onclick="openModal('goalModal')">
+                <svg viewBox="0 0 24 24">
+                    <path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"/>
+                </svg>
+                Add New Goal
+            </button>
         </header>
 
-        <!-- Sidebar Navigation -->
-        <nav class="sidebar" id="sidebar" role="navigation" aria-label="Main navigation">
-            <div class="sidebar-content">
-                <ul class="nav-menu">
-                    <li class="nav-item">
-                        <a href="#" class="nav-link active" role="menuitem">
-                            <span class="nav-icon">
-                                <svg viewBox="0 0 24 24">
-                                    <path d="M3 13h8V3H3v10zm0 8h8v-6H3v6zm10 0h8V11h-8v10zm0-18v6h8V3h-8z"/>
-                                </svg>
-                            </span>
-                            <span class="nav-text">Dashboard</span>
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a href="#" class="nav-link" role="menuitem">
-                            <span class="nav-icon">
-                                <svg viewBox="0 0 24 24">
-                                    <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
-                                </svg>
-                            </span>
-                            <span class="nav-text">Goals</span>
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a href="#" class="nav-link" role="menuitem">
-                            <span class="nav-icon">
-                                <svg viewBox="0 0 24 24">
-                                    <path d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25zM20.71 7.04c.39-.39.39-1.02 0-1.41l-2.34-2.34c-.39-.39-1.02-.39-1.41 0l-1.83 1.83 3.75 3.75 1.83-1.83z"/>
-                                </svg>
-                            </span>
-                            <span class="nav-text">Journal</span>
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a href="#" class="nav-link" role="menuitem">
-                            <span class="nav-icon">
-                                <svg viewBox="0 0 24 24">
-                                    <path d="M16 4c0-1.11.89-2 2-2s2 .89 2 2-.89 2-2 2-2-.89-2-2zm4 18v-6h2.5l-2.54-7.63A1.5 1.5 0 0 0 18.54 7H16c-.8 0-1.54.37-2.01.99l-2.98 3.67a.5.5 0 0 0 .39.84L14 13l-1.5 7H11l-2.5-5H7l-1.5 3H4l2-4h2l2.5 5H12l1.5-7-2.5-.5 2.98-3.67c.47-.62 1.21-.99 2.01-.99h2.54c.83 0 1.54.5 1.85 1.27L22 14.5H20v7.5h-4z"/>
-                                </svg>
-                            </span>
-                            <span class="nav-text">Support</span>
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a href="#" class="nav-link" role="menuitem">
-                            <span class="nav-icon">
-                                <svg viewBox="0 0 24 24">
-                                    <path d="M16 6l2.29 2.29-4.88 4.88-4-4L2 16.59 3.41 18l6-6 4 4 6.3-6.29L22 12V6z"/>
-                                </svg>
-                            </span>
-                            <span class="nav-text">Progress</span>
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a href="#" class="nav-link" role="menuitem">
-                            <span class="nav-icon">
-                                <svg viewBox="0 0 24 24">
-                                    <path d="M19.14,12.94c0.04-0.3,0.06-0.61,0.06-0.94c0-0.32-0.02-0.64-0.07-0.94l2.03-1.58c0.18-0.14,0.23-0.41,0.12-0.61 l-1.92-3.32c-0.12-0.22-0.37-0.29-0.59-0.22l-2.39,0.96c-0.5-0.38-1.03-0.7-1.62-0.94L14.4,2.81c-0.04-0.24-0.24-0.41-0.48-0.41 h-3.84c-0.24,0-0.43,0.17-0.47,0.41L9.25,5.35C8.66,5.59,8.12,5.92,7.63,6.29L5.24,5.33c-0.22-0.08-0.47,0-0.59,0.22L2.74,8.87 C2.62,9.08,2.66,9.34,2.86,9.48l2.03,1.58C4.84,11.36,4.8,11.69,4.8,12s0.02,0.64,0.07,0.94l-2.03,1.58 c-0.18,0.14-0.23,0.41-0.12,0.61l1.92,3.32c0.12,0.22,0.37,0.29,0.59,0.22l2.39-0.96c0.5,0.38,1.03,0.7,1.62,0.94l0.36,2.54 c0.05,0.24,0.24,0.41,0.48,0.41h3.84c0.24,0,0.44-0.17,0.47-0.41l0.36-2.54c0.59-0.24,1.13-0.56,1.62-0.94l2.39,0.96 c0.22,0.08,0.47,0,0.59-0.22l1.92-3.32c0.12-0.22,0.07-0.47-0.12-0.61L19.14,12.94z M12,15.6c-1.98,0-3.6-1.62-3.6-3.6 s1.62-3.6,3.6-3.6s3.6,1.62,3.6,3.6S13.98,15.6,12,15.6z"/>
-                                </svg>
-                            </span>
-                            <span class="nav-text">Settings</span>
-                        </a>
-                    </li>
-                </ul>
+        <!-- Goal Statistics -->
+        <section class="goal-stats">
+            <div class="stat-card">
+                <div class="stat-value" id="totalGoals">6</div>
+                <div class="stat-label">Total Goals</div>
+                <div class="stat-description">Active and completed goals</div>
             </div>
-        </nav>
+            <div class="stat-card">
+                <div class="stat-value" id="completedGoals">2</div>
+                <div class="stat-label">Completed</div>
+                <div class="stat-description">Successfully achieved</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-value" id="inProgressGoals">3</div>
+                <div class="stat-label">In Progress</div>
+                <div class="stat-description">Currently working on</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-value" id="completionRate">75%</div>
+                <div class="stat-label">Success Rate</div>
+                <div class="stat-description">Overall completion rate</div>
+            </div>
+        </section>
 
-        <!-- Main Content -->
-        <main class="main-content" id="mainContent">
-            <!-- Dashboard Content -->
-            <div class="dashboard-content">
-                <!-- Hero Section -->
-                <section class="hero-section">
-                    <div class="hero-card">
-                        <div class="hero-metric" id="heroMetric">454</div>
-                        <div class="hero-label">Days of Recovery</div>
-                        <div class="hero-message">"One day at a time, one step forward"</div>
+        <!-- Controls -->
+        <section class="controls">
+            <div class="filter-group">
+                <button class="filter-btn active" onclick="filterGoals('all')" data-filter="all">All Goals</button>
+                <button class="filter-btn" onclick="filterGoals('completed')" data-filter="completed">Completed</button>
+                <button class="filter-btn" onclick="filterGoals('in-progress')" data-filter="in-progress">In Progress</button>
+                <button class="filter-btn" onclick="filterGoals('pending')" data-filter="pending">Pending</button>
+            </div>
+            <input type="text" class="search-box" placeholder="Search goals..." onkeyup="searchGoals(this.value)">
+        </section>
+
+        <!-- Goals List -->
+        <section class="goals-list" id="goalsList">
+            <!-- Goal 1 - Completed -->
+            <article class="goal-item completed" data-status="completed" data-category="sobriety">
+                <div class="goal-header">
+                    <div>
+                        <h3 class="goal-title">Complete 30 Days Sober</h3>
+                        <div class="goal-category">Sobriety Milestone</div>
                     </div>
-                </section>
+                    <div class="goal-actions">
+                        <span class="status-badge status-completed">Completed</span>
+                        <button class="btn btn-secondary btn-icon" onclick="editGoal(1)" title="Edit goal">
+                            <svg viewBox="0 0 24 24">
+                                <path d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25zM20.71 7.04c.39-.39.39-1.02 0-1.41l-2.34-2.34c-.39-.39-1.02-.39-1.41 0l-1.83 1.83 3.75 3.75 1.83-1.83z"/>
+                            </svg>
+                        </button>
+                        <button class="btn btn-danger btn-icon" onclick="deleteGoal(1)" title="Delete goal">
+                            <svg viewBox="0 0 24 24">
+                                <path d="M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zM19 4h-3.5l-1-1h-5l-1 1H5v2h14V4z"/>
+                            </svg>
+                        </button>
+                    </div>
+                </div>
+                <p class="goal-description">
+                    Achieve my first major milestone of 30 consecutive days without alcohol. This is the foundation for my long-term recovery journey and represents a significant commitment to change.
+                </p>
+                <div class="goal-meta">
+                    <div class="goal-meta-item">
+                        <div class="goal-meta-value">30/30</div>
+                        <div class="goal-meta-label">Days</div>
+                    </div>
+                    <div class="goal-meta-item">
+                        <div class="goal-meta-value">100%</div>
+                        <div class="goal-meta-label">Progress</div>
+                    </div>
+                    <div class="goal-meta-item">
+                        <div class="goal-meta-value">Jan 15</div>
+                        <div class="goal-meta-label">Completed</div>
+                    </div>
+                    <div class="goal-meta-item">
+                        <div class="goal-meta-value">High</div>
+                        <div class="goal-meta-label">Priority</div>
+                    </div>
+                </div>
+                <div class="progress-container">
+                    <div class="progress-header">
+                        <span class="progress-label">Goal Progress</span>
+                        <span class="progress-percentage">100%</span>
+                    </div>
+                    <div class="progress-bar">
+                        <div class="progress-fill" style="width: 100%;"></div>
+                    </div>
+                </div>
+            </article>
 
-                <!-- Cards Grid -->
-                <section class="cards-grid">
-                    <!-- Financial Impact Card (Featured) -->
-                    <article class="card featured">
-                        <header class="card-header">
-                            <h2 class="card-title">Financial Impact</h2>
-                            <button class="card-menu tooltip" data-tooltip="View details" aria-label="Card options">
-                                <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor">
-                                    <path d="M12 8c1.1 0 2-.9 2-2s-.9-2-2-2-2 .9-2 2 .9 2 2 2zm0 2c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zm0 6c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2z"/>
-                                </svg>
-                            </button>
-                        </header>
-                        <div class="card-body">
-                            <div class="card-metric">$24,850</div>
-                            <div class="card-subtitle">Money Saved from Recovery</div>
-                            <div class="card-stats">
-                                <div class="stat-item">
-                                    <div class="stat-value">$180</div>
-                                    <div class="stat-label">Daily Savings</div>
-                                </div>
-                                <div class="stat-item">
-                                    <div class="stat-value">$5,400</div>
-                                    <div class="stat-label">Monthly</div>
-                                </div>
-                            </div>
-                        </div>
-                        <footer class="card-footer">
-                            <span>Updated 1h ago</span>
-                            <div class="footer-status">
-                                <div class="status-dot"></div>
-                                <span>Active</span>
-                            </div>
-                        </footer>
-                    </article>
+            <!-- Goal 2 - In Progress -->
+            <article class="goal-item" data-status="in-progress" data-category="support">
+                <div class="goal-header">
+                    <div>
+                        <h3 class="goal-title">Attend 12 AA Meetings</h3>
+                        <div class="goal-category">Support Network</div>
+                    </div>
+                    <div class="goal-actions">
+                        <span class="status-badge status-in-progress">In Progress</span>
+                        <button class="btn btn-secondary btn-icon" onclick="editGoal(2)" title="Edit goal">
+                            <svg viewBox="0 0 24 24">
+                                <path d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25zM20.71 7.04c.39-.39.39-1.02 0-1.41l-2.34-2.34c-.39-.39-1.02-.39-1.41 0l-1.83 1.83 3.75 3.75 1.83-1.83z"/>
+                            </svg>
+                        </button>
+                        <button class="btn btn-success btn-icon" onclick="updateProgress(2)" title="Update progress">
+                            <svg viewBox="0 0 24 24">
+                                <path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/>
+                            </svg>
+                        </button>
+                    </div>
+                </div>
+                <p class="goal-description">
+                    Commit to attending at least 12 Alcoholics Anonymous meetings to build a strong support network and learn from others' experiences in recovery.
+                </p>
+                <div class="goal-meta">
+                    <div class="goal-meta-item">
+                        <div class="goal-meta-value">8/12</div>
+                        <div class="goal-meta-label">Meetings</div>
+                    </div>
+                    <div class="goal-meta-item">
+                        <div class="goal-meta-value">67%</div>
+                        <div class="goal-meta-label">Progress</div>
+                    </div>
+                    <div class="goal-meta-item">
+                        <div class="goal-meta-value">Mar 1</div>
+                        <div class="goal-meta-label">Target Date</div>
+                    </div>
+                    <div class="goal-meta-item">
+                        <div class="goal-meta-value">High</div>
+                        <div class="goal-meta-label">Priority</div>
+                    </div>
+                </div>
+                <div class="progress-container">
+                    <div class="progress-header">
+                        <span class="progress-label">Meeting Attendance</span>
+                        <span class="progress-percentage">67%</span>
+                    </div>
+                    <div class="progress-bar">
+                        <div class="progress-fill" style="width: 67%;"></div>
+                    </div>
+                </div>
+            </article>
 
-                    <!-- Next Milestone Card -->
-                    <article class="card">
-                        <header class="card-header">
-                            <h2 class="card-title">Next Milestone</h2>
-                            <button class="btn btn-secondary btn-icon tooltip" data-tooltip="Add milestone" aria-label="Add new milestone">
-                                <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor">
-                                    <path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"/>
-                                </svg>
-                            </button>
-                        </header>
-                        <div class="card-body">
-                            <div class="progress-circular">
-                                <svg width="100" height="100" class="progress-circle">
-                                    <circle cx="50" cy="50" r="40" fill="none" stroke="#F0F0F0" stroke-width="8"/>
-                                    <circle cx="50" cy="50" r="40" fill="none" stroke="#00A651" stroke-width="8" 
-                                            stroke-dasharray="251" stroke-dashoffset="75" stroke-linecap="round"/>
-                                </svg>
-                                <div class="progress-text">70%</div>
-                            </div>
-                            <div style="text-align: center;">
-                                <div class="card-metric" style="font-size: 28px;">46 Days</div>
-                                <div class="card-subtitle">Until 18 Months Sober</div>
-                            </div>
-                        </div>
-                        <footer class="card-footer">
-                            <span>Target: March 15, 2024</span>
-                            <div class="footer-status">
-                                <div class="status-dot"></div>
-                                <span>On Track</span>
-                            </div>
-                        </footer>
-                    </article>
+            <!-- Goal 3 - In Progress -->
+            <article class="goal-item" data-status="in-progress" data-category="health">
+                <div class="goal-header">
+                    <div>
+                        <h3 class="goal-title">Exercise 4 Times Per Week</h3>
+                        <div class="goal-category">Physical Health</div>
+                    </div>
+                    <div class="goal-actions">
+                        <span class="status-badge status-in-progress">In Progress</span>
+                        <button class="btn btn-secondary btn-icon" onclick="editGoal(3)" title="Edit goal">
+                            <svg viewBox="0 0 24 24">
+                                <path d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25zM20.71 7.04c.39-.39.39-1.02 0-1.41l-2.34-2.34c-.39-.39-1.02-.39-1.41 0l-1.83 1.83 3.75 3.75 1.83-1.83z"/>
+                            </svg>
+                        </button>
+                        <button class="btn btn-success btn-icon" onclick="updateProgress(3)" title="Update progress">
+                            <svg viewBox="0 0 24 24">
+                                <path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/>
+                            </svg>
+                        </button>
+                    </div>
+                </div>
+                <p class="goal-description">
+                    Establish a consistent exercise routine to improve physical health, mental wellbeing, and create positive habits to replace old destructive patterns.
+                </p>
+                <div class="goal-meta">
+                    <div class="goal-meta-item">
+                        <div class="goal-meta-value">3/4</div>
+                        <div class="goal-meta-label">This Week</div>
+                    </div>
+                    <div class="goal-meta-item">
+                        <div class="goal-meta-value">85%</div>
+                        <div class="goal-meta-label">Monthly Avg</div>
+                    </div>
+                    <div class="goal-meta-item">
+                        <div class="goal-meta-value">Ongoing</div>
+                        <div class="goal-meta-label">Timeline</div>
+                    </div>
+                    <div class="goal-meta-item">
+                        <div class="goal-meta-value">Medium</div>
+                        <div class="goal-meta-label">Priority</div>
+                    </div>
+                </div>
+                <div class="progress-container">
+                    <div class="progress-header">
+                        <span class="progress-label">Weekly Exercise Goal</span>
+                        <span class="progress-percentage">85%</span>
+                    </div>
+                    <div class="progress-bar">
+                        <div class="progress-fill" style="width: 85%;"></div>
+                    </div>
+                </div>
+            </article>
 
-                    <!-- Health Improvements Card -->
-                    <article class="card">
-                        <header class="card-header">
-                            <h2 class="card-title">Health Improvements</h2>
-                            <button class="card-menu tooltip" data-tooltip="View health metrics" aria-label="Card options">
-                                <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor">
-                                    <path d="M19.43 12.98c.04-.32.07-.64.07-.98s-.03-.66-.07-.98l2.11-1.65c.19-.15.24-.42.12-.64l-2-3.46c-.12-.22-.39-.3-.61-.22l-2.49 1c-.52-.4-1.08-.73-1.69-.98l-.38-2.65C14.46 2.18 14.25 2 14 2h-4c-.25 0-.46.18-.49.42l-.38 2.65c-.61.25-1.17.59-1.69.98l-2.49-1c-.23-.09-.49 0-.61.22l-2 3.46c-.13.22-.07.49.12.64l2.11 1.65c-.04.32-.07.65-.07.98s.03.66.07.98l-2.11 1.65c-.19.15-.24.42-.12.64l2 3.46c.12.22.39.3.61.22l2.49-1c.52.4 1.08.73 1.69.98l.38 2.65c.03.24.24.42.49.42h4c.25 0 .46-.18.49-.42l.38-2.65c.61-.25 1.17-.59 1.69-.98l2.49 1c.23.09.49 0 .61-.22l2-3.46c.12-.22.07-.49-.12-.64l-2.11-1.65zM12 15.5c-1.93 0-3.5-1.57-3.5-3.5s1.57-3.5 3.5-3.5 3.5 1.57 3.5 3.5-1.57 3.5-3.5 3.5z"/>
-                                </svg>
-                            </button>
-                        </header>
-                        <div class="card-body">
-                            <div class="card-metric">92%</div>
-                            <div class="card-subtitle">Overall Health Score</div>
-                            <div class="progress-bar-container">
-                                <div class="progress-bar-header">
-                                    <span class="progress-bar-label">Sleep Quality</span>
-                                    <span class="progress-bar-value">8.2/10</span>
-                                </div>
-                                <div class="progress-bar">
-                                    <div class="progress-fill" style="width: 82%;"></div>
-                                </div>
-                            </div>
-                            <div class="progress-bar-container">
-                                <div class="progress-bar-header">
-                                    <span class="progress-bar-label">Energy Levels</span>
-                                    <span class="progress-bar-value">9.1/10</span>
-                                </div>
-                                <div class="progress-bar">
-                                    <div class="progress-fill" style="width: 91%;"></div>
-                                </div>
-                            </div>
-                        </div>
-                        <footer class="card-footer">
-                            <span>Last updated 3h ago</span>
-                            <div class="footer-status">
-                                <div class="status-dot"></div>
-                                <span>Excellent</span>
-                            </div>
-                        </footer>
-                    </article>
+            <!-- Goal 4 - Pending -->
+            <article class="goal-item" data-status="pending" data-category="education">
+                <div class="goal-header">
+                    <div>
+                        <h3 class="goal-title">Read 2 Recovery Books</h3>
+                        <div class="goal-category">Education</div>
+                    </div>
+                    <div class="goal-actions">
+                        <span class="status-badge status-pending">Pending</span>
+                        <button class="btn btn-secondary btn-icon" onclick="editGoal(4)" title="Edit goal">
+                            <svg viewBox="0 0 24 24">
+                                <path d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25zM20.71 7.04c.39-.39.39-1.02 0-1.41l-2.34-2.34c-.39-.39-1.02-.39-1.41 0l-1.83 1.83 3.75 3.75 1.83-1.83z"/>
+                            </svg>
+                        </button>
+                        <button class="btn btn-primary btn-icon" onclick="startGoal(4)" title="Start goal">
+                            <svg viewBox="0 0 24 24">
+                                <path d="M8 5v14l11-7z"/>
+                            </svg>
+                        </button>
+                    </div>
+                </div>
+                <p class="goal-description">
+                    Educate myself about addiction and recovery by reading recommended books to better understand my journey and develop effective coping strategies.
+                </p>
+                <div class="goal-meta">
+                    <div class="goal-meta-item">
+                        <div class="goal-meta-value">0/2</div>
+                        <div class="goal-meta-label">Books</div>
+                    </div>
+                    <div class="goal-meta-item">
+                        <div class="goal-meta-value">0%</div>
+                        <div class="goal-meta-label">Progress</div>
+                    </div>
+                    <div class="goal-meta-item">
+                        <div class="goal-meta-value">Apr 30</div>
+                        <div class="goal-meta-label">Target Date</div>
+                    </div>
+                    <div class="goal-meta-item">
+                        <div class="goal-meta-value">Medium</div>
+                        <div class="goal-meta-label">Priority</div>
+                    </div>
+                </div>
+                <div class="progress-container">
+                    <div class="progress-header">
+                        <span class="progress-label">Reading Progress</span>
+                        <span class="progress-percentage">0%</span>
+                    </div>
+                    <div class="progress-bar">
+                        <div class="progress-fill" style="width: 0%;"></div>
+                    </div>
+                </div>
+            </article>
 
-                    <!-- Trigger Management Card -->
-                    <article class="card">
-                        <header class="card-header">
-                            <h2 class="card-title">Trigger Management</h2>
-                            <button class="card-menu tooltip" data-tooltip="Log trigger" aria-label="Log new trigger">
-                                <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor">
-                                    <path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"/>
-                                </svg>
-                            </button>
-                        </header>
-                        <div class="card-body">
-                            <div class="card-metric">3 Active</div>
-                            <div class="card-subtitle">Triggers Being Monitored</div>
-                            <ul class="data-list">
-                                <li class="data-item">
-                                    <span class="data-label">Work Stress</span>
-                                    <span class="status-badge status-high">High</span>
-                                </li>
-                                <li class="data-item">
-                                    <span class="data-label">Social Events</span>
-                                    <span class="status-badge status-medium">Medium</span>
-                                </li>
-                                <li class="data-item">
-                                    <span class="data-label">Loneliness</span>
-                                    <span class="status-badge status-low">Low</span>
-                                </li>
-                            </ul>
-                        </div>
-                        <footer class="card-footer">
-                            <span>Last updated 4h ago</span>
-                            <div class="footer-status">
-                                <div class="status-dot" style="background: #D97706;"></div>
-                                <span>Monitoring</span>
-                            </div>
-                        </footer>
-                    </article>
+            <!-- Goal 5 - Completed -->
+            <article class="goal-item completed" data-status="completed" data-category="sobriety">
+                <div class="goal-header">
+                    <div>
+                        <h3 class="goal-title">Find a Sponsor</h3>
+                        <div class="goal-category">Support Network</div>
+                    </div>
+                    <div class="goal-actions">
+                        <span class="status-badge status-completed">Completed</span>
+                        <button class="btn btn-secondary btn-icon" onclick="editGoal(5)" title="Edit goal">
+                            <svg viewBox="0 0 24 24">
+                                <path d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25zM20.71 7.04c.39-.39.39-1.02 0-1.41l-2.34-2.34c-.39-.39-1.02-.39-1.41 0l-1.83 1.83 3.75 3.75 1.83-1.83z"/>
+                            </svg>
+                        </button>
+                    </div>
+                </div>
+                <p class="goal-description">
+                    Connect with an experienced sponsor who can guide me through the recovery process and provide accountability and support when needed.
+                </p>
+                <div class="goal-meta">
+                    <div class="goal-meta-item">
+                        <div class="goal-meta-value">1/1</div>
+                        <div class="goal-meta-label">Sponsor</div>
+                    </div>
+                    <div class="goal-meta-item">
+                        <div class="goal-meta-value">100%</div>
+                        <div class="goal-meta-label">Progress</div>
+                    </div>
+                    <div class="goal-meta-item">
+                        <div class="goal-meta-value">Dec 20</div>
+                        <div class="goal-meta-label">Completed</div>
+                    </div>
+                    <div class="goal-meta-item">
+                        <div class="goal-meta-value">High</div>
+                        <div class="goal-meta-label">Priority</div>
+                    </div>
+                </div>
+                <div class="progress-container">
+                    <div class="progress-header">
+                        <span class="progress-label">Goal Progress</span>
+                        <span class="progress-percentage">100%</span>
+                    </div>
+                    <div class="progress-bar">
+                        <div class="progress-fill" style="width: 100%;"></div>
+                    </div>
+                </div>
+            </article>
 
-                    <!-- Quick Actions Card -->
-                    <article class="card">
-                        <header class="card-header">
-                            <h2 class="card-title">Quick Actions</h2>
-                        </header>
-                        <div class="card-body">
-                            <div style="display: flex; flex-direction: column; gap: 14px;">
-                                <button class="btn btn-primary" onclick="handleQuickAction('checkin')">
-                                    <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor">
-                                        <path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/>
-                                    </svg>
-                                    Daily Check-in
-                                </button>
-                                <button class="btn btn-secondary" onclick="handleQuickAction('journal')">
-                                    <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor">
-                                        <path d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25zM20.71 7.04c.39-.39.39-1.02 0-1.41l-2.34-2.34c-.39-.39-1.02-.39-1.41 0l-1.83 1.83 3.75 3.75 1.83-1.83z"/>
-                                    </svg>
-                                    Journal Entry
-                                </button>
-                                <button class="btn btn-success" onclick="handleQuickAction('milestone')">
-                                    <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor">
-                                        <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
-                                    </svg>
-                                    Celebrate Milestone
-                                </button>
-                            </div>
-                        </div>
-                        <footer class="card-footer">
-                            <span>Last action 2h ago</span>
-                            <div class="footer-status">
-                                <div class="status-dot"></div>
-                                <span>Ready</span>
-                            </div>
-                        </footer>
-                    </article>
+            <!-- Goal 6 - In Progress -->
+            <article class="goal-item" data-status="in-progress" data-category="financial">
+                <div class="goal-header">
+                    <div>
+                        <h3 class="goal-title">Save $5,000 Emergency Fund</h3>
+                        <div class="goal-category">Financial Recovery</div>
+                    </div>
+                    <div class="goal-actions">
+                        <span class="status-badge status-in-progress">In Progress</span>
+                        <button class="btn btn-secondary btn-icon" onclick="editGoal(6)" title="Edit goal">
+                            <svg viewBox="0 0 24 24">
+                                <path d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25zM20.71 7.04c.39-.39.39-1.02 0-1.41l-2.34-2.34c-.39-.39-1.02-.39-1.41 0l-1.83 1.83 3.75 3.75 1.83-1.83z"/>
+                            </svg>
+                        </button>
+                        <button class="btn btn-success btn-icon" onclick="updateProgress(6)" title="Update progress">
+                            <svg viewBox="0 0 24 24">
+                                <path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/>
+                            </svg>
+                        </button>
+                    </div>
+                </div>
+                <p class="goal-description">
+                    Build financial stability by creating an emergency fund using the money saved from not drinking. This will provide security and reduce financial stress.
+                </p>
+                <div class="goal-meta">
+                    <div class="goal-meta-item">
+                        <div class="goal-meta-value">$3,200</div>
+                        <div class="goal-meta-label">Saved</div>
+                    </div>
+                    <div class="goal-meta-item">
+                        <div class="goal-meta-value">64%</div>
+                        <div class="goal-meta-label">Progress</div>
+                    </div>
+                    <div class="goal-meta-item">
+                        <div class="goal-meta-value">Jun 1</div>
+                        <div class="goal-meta-label">Target Date</div>
+                    </div>
+                    <div class="goal-meta-item">
+                        <div class="goal-meta-value">High</div>
+                        <div class="goal-meta-label">Priority</div>
+                    </div>
+                </div>
+                <div class="progress-container">
+                    <div class="progress-header">
+                        <span class="progress-label">Savings Progress</span>
+                        <span class="progress-percentage">64%</span>
+                    </div>
+                    <div class="progress-bar">
+                        <div class="progress-fill" style="width: 64%;"></div>
+                    </div>
+                </div>
+            </article>
+        </section>
+    </div>
 
-                    <!-- Emergency Support Card -->
-                    <article class="card">
-                        <header class="card-header">
-                            <h2 class="card-title">Emergency Support</h2>
-                            <button class="card-menu tooltip" data-tooltip="Emergency contacts" aria-label="View emergency contacts">
-                                <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor">
-                                    <path d="M1 21h4V9H1v12zm22-11c0-1.1-.9-2-2-2h-6.31l.95-4.57.03-.32c0-.41-.17-.79-.44-1.06L14.17 1 7.59 7.59C7.22 7.95 7 8.45 7 9v10c0 1.1.9 2 2 2h9c.83 0 1.54-.5 1.84-1.22l3.02-7.05c.09-.23.14-.47.14-.73v-2z"/>
-                                </svg>
-                            </button>
-                        </header>
-                        <div class="card-body">
-                            <ul class="data-list">
-                                <li class="data-item">
-                                    <span class="data-label">Sponsor</span>
-                                    <button class="btn btn-secondary" style="padding: 8px 16px; font-size: 12px;">
-                                        <svg viewBox="0 0 24 24" width="12" height="12" fill="currentColor">
-                                            <path d="M6.62 10.79c1.44 2.83 3.76 5.14 6.59 6.59l2.2-2.2c.27-.27.67-.36 1.02-.24 1.12.37 2.33.57 3.57.57.55 0 1 .45 1 1V20c0 .55-.45 1-1 1-9.39 0-17-7.61-17-17 0-.55.45-1 1-1h3.5c.55 0 1 .45 1 1 0 1.25.2 2.45.57 3.57.11.35.03.74-.25 1.02l-2.2 2.2z"/>
-                                        </svg>
-                                        Call
-                                    </button>
-                                </li>
-                                <li class="data-item">
-                                    <span class="data-label">Crisis Hotline</span>
-                                    <button class="btn btn-secondary" style="padding: 8px 16px; font-size: 12px;">
-                                        <svg viewBox="0 0 24 24" width="12" height="12" fill="currentColor">
-                                            <path d="M6.62 10.79c1.44 2.83 3.76 5.14 6.59 6.59l2.2-2.2c.27-.27.67-.36 1.02-.24 1.12.37 2.33.57 3.57.57.55 0 1 .45 1 1V20c0 .55-.45 1-1 1-9.39 0-17-7.61-17-17 0-.55.45-1 1-1h3.5c.55 0 1 .45 1 1 0 1.25.2 2.45.57 3.57.11.35.03.74-.25 1.02l-2.2 2.2z"/>
-                                        </svg>
-                                        Call
-                                    </button>
-                                </li>
-                                <li class="data-item">
-                                    <span class="data-label">Support Group</span>
-                                    <button class="btn btn-secondary" style="padding: 8px 16px; font-size: 12px;">
-                                        <svg viewBox="0 0 24 24" width="12" height="12" fill="currentColor">
-                                            <path d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/>
-                                        </svg>
-                                        Message
-                                    </button>
-                                </li>
-                            </ul>
-                        </div>
-                        <footer class="card-footer">
-                            <span>Available 24/7</span>
-                            <div class="footer-status">
-                                <div class="status-dot"></div>
-                                <span>Online</span>
-                            </div>
-                        </footer>
-                    </article>
-                </section>
+    <!-- Add/Edit Goal Modal -->
+    <div class="modal" id="goalModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 class="modal-title" id="modalTitle">Add New Goal</h2>
+                <button class="modal-close" onclick="closeModal('goalModal')">&times;</button>
             </div>
-        </main>
+            <form id="goalForm" onsubmit="saveGoal(event)">
+                <div class="form-group">
+                    <label class="form-label" for="goalTitle">Goal Title</label>
+                    <input type="text" id="goalTitle" class="form-input" placeholder="Enter your goal title" required>
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label" for="goalCategory">Category</label>
+                    <select id="goalCategory" class="form-input form-select" required>
+                        <option value="">Select a category</option>
+                        <option value="sobriety">Sobriety Milestone</option>
+                        <option value="health">Physical Health</option>
+                        <option value="mental">Mental Health</option>
+                        <option value="support">Support Network</option>
+                        <option value="education">Education</option>
+                        <option value="financial">Financial Recovery</option>
+                        <option value="relationships">Relationships</option>
+                        <option value="career">Career</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label" for="goalDescription">Description</label>
+                    <textarea id="goalDescription" class="form-input form-textarea" placeholder="Describe your goal in detail..." required></textarea>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label class="form-label" for="goalTarget">Target Value</label>
+                        <input type="text" id="goalTarget" class="form-input" placeholder="e.g., 30 days, $5000, 12 meetings">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label" for="goalCurrent">Current Progress</label>
+                        <input type="text" id="goalCurrent" class="form-input" placeholder="e.g., 15 days, $2500, 8 meetings">
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label class="form-label" for="goalDeadline">Target Date</label>
+                        <input type="date" id="goalDeadline" class="form-input">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label" for="goalPriority">Priority</label>
+                        <select id="goalPriority" class="form-input form-select" required>
+                            <option value="">Select priority</option>
+                            <option value="high">High</option>
+                            <option value="medium">Medium</option>
+                            <option value="low">Low</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label" for="goalStatus">Status</label>
+                    <select id="goalStatus" class="form-input form-select" required>
+                        <option value="pending">Pending</option>
+                        <option value="in-progress">In Progress</option>
+                        <option value="completed">Completed</option>
+                    </select>
+                </div>
+
+                <div class="form-actions">
+                    <button type="button" class="btn btn-secondary" onclick="closeModal('goalModal')">Cancel</button>
+                    <button type="submit" class="btn btn-primary">Save Goal</button>
+                </div>
+            </form>
+        </div>
     </div>
 
     <script>
-        // Sidebar toggle functionality
-        function toggleSidebar() {
-            const sidebar = document.getElementById('sidebar');
-            const mainContent = document.getElementById('mainContent');
-            const toggleIcon = document.getElementById('toggleIcon');
+        let goals = [];
+        let editingGoalId = null;
+
+        // Initialize the page
+        document.addEventListener('DOMContentLoaded', function() {
+            updateStatistics();
+        });
+
+        // Modal functions
+        function openModal(modalId) {
+            document.getElementById(modalId).classList.add('show');
+            if (modalId === 'goalModal' && !editingGoalId) {
+                document.getElementById('modalTitle').textContent = 'Add New Goal';
+                document.getElementById('goalForm').reset();
+            }
+        }
+
+        function closeModal(modalId) {
+            document.getElementById(modalId).classList.remove('show');
+            editingGoalId = null;
+            document.getElementById('goalForm').reset();
+        }
+
+        // Goal management functions
+        function saveGoal(event) {
+            event.preventDefault();
             
-            sidebar.classList.toggle('collapsed');
-            mainContent.classList.toggle('sidebar-collapsed');
-            
-            // Update toggle icon
-            if (sidebar.classList.contains('collapsed')) {
-                toggleIcon.textContent = '☰';
+            const formData = new FormData(event.target);
+            const goalData = {
+                id: editingGoalId || Date.now(),
+                title: document.getElementById('goalTitle').value,
+                category: document.getElementById('goalCategory').value,
+                description: document.getElementById('goalDescription').value,
+                target: document.getElementById('goalTarget').value,
+                current: document.getElementById('goalCurrent').value,
+                deadline: document.getElementById('goalDeadline').value,
+                priority: document.getElementById('goalPriority').value,
+                status: document.getElementById('goalStatus').value,
+                createdAt: editingGoalId ? null : new Date().toISOString(),
+                updatedAt: new Date().toISOString()
+            };
+
+            if (editingGoalId) {
+                // Update existing goal
+                showNotification('Goal updated successfully!', 'success');
             } else {
-                toggleIcon.textContent = '✕';
+                // Add new goal
+                goals.push(goalData);
+                addGoalToDOM(goalData);
+                showNotification('New goal added successfully!', 'success');
             }
+
+            updateStatistics();
+            closeModal('goalModal');
+        }
+
+        function editGoal(goalId) {
+            editingGoalId = goalId;
+            document.getElementById('modalTitle').textContent = 'Edit Goal';
             
-            // Handle mobile view
-            if (window.innerWidth <= 1024) {
-                sidebar.classList.toggle('mobile-open');
+            // In a real app, you'd populate the form with existing goal data
+            showNotification('Edit functionality would load goal data here', 'info');
+            openModal('goalModal');
+        }
+
+        function deleteGoal(goalId) {
+            // Create custom confirmation dialog
+            const confirmDialog = document.createElement('div');
+            confirmDialog.className = 'modal show';
+            confirmDialog.innerHTML = `
+                <div class="modal-content" style="max-width: 400px;">
+                    <div class="modal-header">
+                        <h3 class="modal-title">Delete Goal</h3>
+                    </div>
+                    <div style="padding: 20px 0;">
+                        <p>Are you sure you want to delete this goal? This action cannot be undone.</p>
+                    </div>
+                    <div class="form-actions">
+                        <button class="btn btn-secondary" onclick="this.closest('.modal').remove()">Cancel</button>
+                        <button class="btn btn-danger" onclick="confirmDeleteGoal(${goalId}); this.closest('.modal').remove();">Delete Goal</button>
+                    </div>
+                </div>
+            `;
+            document.body.appendChild(confirmDialog);
+        }
+
+        function confirmDeleteGoal(goalId) {
+            const goalElement = document.querySelector(`[data-goal-id="${goalId}"]`);
+            if (goalElement) {
+                goalElement.style.transform = 'translateX(-100%)';
+                goalElement.style.opacity = '0';
+                setTimeout(() => {
+                    goalElement.remove();
+                    updateStatistics();
+                    showNotification('Goal deleted successfully', 'success');
+                }, 300);
             }
         }
 
-        // Navigation functionality
-        document.querySelectorAll('.nav-link').forEach(link => {
-            link.addEventListener('click', function(e) {
-                e.preventDefault();
-                
-                // Remove active class from all links
-                document.querySelectorAll('.nav-link').forEach(l => l.classList.remove('active'));
-                
-                // Add active class to clicked link
-                this.classList.add('active');
-                
-                // Update page title
-                const pageTitle = this.querySelector('.nav-text').textContent;
-                document.getElementById('pageTitle').textContent = pageTitle;
-            });
-        });
+        function updateProgress(goalId) {
+            // Create progress update dialog
+            const progressDialog = document.createElement('div');
+            progressDialog.className = 'modal show';
+            progressDialog.innerHTML = `
+                <div class="modal-content" style="max-width: 400px;">
+                    <div class="modal-header">
+                        <h3 class="modal-title">Update Progress</h3>
+                        <button class="modal-close" onclick="this.closest('.modal').remove()">&times;</button>
+                    </div>
+                    <form onsubmit="saveProgress(event, ${goalId})">
+                        <div class="form-group">
+                            <label class="form-label">Current Progress</label>
+                            <input type="text" class="form-input" placeholder="Enter current progress" required>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Notes (optional)</label>
+                            <textarea class="form-input" placeholder="Add any notes about your progress..."></textarea>
+                        </div>
+                        <div class="form-actions">
+                            <button type="button" class="btn btn-secondary" onclick="this.closest('.modal').remove()">Cancel</button>
+                            <button type="submit" class="btn btn-success">Update Progress</button>
+                        </div>
+                    </form>
+                </div>
+            `;
+            document.body.appendChild(progressDialog);
+        }
 
-        // Quick actions functionality
-        function handleQuickAction(action) {
-            const button = event.target;
-            const originalHTML = button.innerHTML;
+        function saveProgress(event, goalId) {
+            event.preventDefault();
+            event.target.closest('.modal').remove();
+            showNotification('Progress updated successfully!', 'success');
             
-            // Show loading state
-            button.innerHTML = '<svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor"><path d="M12 6v3l4-4-4-4v3c-4.42 0-8 3.58-8 8 0 1.57.46 3.03 1.24 4.26L6.7 14.8c-.45-.83-.7-1.79-.7-2.8 0-3.31 2.69-6 6-6z"/></svg> Processing...';
-            button.disabled = true;
+            // In a real app, you'd update the progress bar and statistics
+            updateStatistics();
+        }
+
+        function startGoal(goalId) {
+            const goalElement = document.querySelector(`article[data-status="pending"]`);
+            if (goalElement) {
+                const statusBadge = goalElement.querySelector('.status-badge');
+                statusBadge.textContent = 'In Progress';
+                statusBadge.className = 'status-badge status-in-progress';
+                goalElement.setAttribute('data-status', 'in-progress');
+                
+                showNotification('Goal started! Good luck!', 'success');
+                updateStatistics();
+            }
+        }
+
+        // Filter and search functions
+        function filterGoals(status) {
+            const goals = document.querySelectorAll('.goal-item');
+            const filterBtns = document.querySelectorAll('.filter-btn');
             
+            // Update active filter button
+            filterBtns.forEach(btn => btn.classList.remove('active'));
+            document.querySelector(`[data-filter="${status}"]`).classList.add('active');
+            
+            // Show/hide goals based on filter
+            goals.forEach(goal => {
+                if (status === 'all' || goal.getAttribute('data-status') === status) {
+                    goal.style.display = 'block';
+                    goal.style.animation = 'fadeIn 0.3s ease';
+                } else {
+                    goal.style.display = 'none';
+                }
+            });
+        }
+
+        function searchGoals(searchTerm) {
+            const goals = document.querySelectorAll('.goal-item');
+            const term = searchTerm.toLowerCase();
+            
+            goals.forEach(goal => {
+                const title = goal.querySelector('.goal-title').textContent.toLowerCase();
+                const description = goal.querySelector('.goal-description').textContent.toLowerCase();
+                const category = goal.querySelector('.goal-category').textContent.toLowerCase();
+                
+                if (title.includes(term) || description.includes(term) || category.includes(term)) {
+                    goal.style.display = 'block';
+                    goal.style.animation = 'fadeIn 0.3s ease';
+                } else {
+                    goal.style.display = 'none';
+                }
+            });
+        }
+
+        // Statistics functions
+        function updateStatistics() {
+            const goals = document.querySelectorAll('.goal-item');
+            const completed = document.querySelectorAll('.goal-item[data-status="completed"]');
+            const inProgress = document.querySelectorAll('.goal-item[data-status="in-progress"]');
+            
+            document.getElementById('totalGoals').textContent = goals.length;
+            document.getElementById('completedGoals').textContent = completed.length;
+            document.getElementById('inProgressGoals').textContent = inProgress.length;
+            
+            const completionRate = goals.length > 0 ? Math.round((completed.length / goals.length) * 100) : 0;
+            document.getElementById('completionRate').textContent = completionRate + '%';
+        }
+
+        // Notification system
+        function showNotification(message, type = 'info') {
+            const notification = document.createElement('div');
+            notification.style.cssText = `
+                position: fixed;
+                top: 20px;
+                right: 20px;
+                background: ${type === 'success' ? '#00A651' : type === 'error' ? '#DC2626' : '#7B2CBF'};
+                color: white;
+                padding: 16px 24px;
+                border-radius: 12px;
+                box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+                z-index: 2000;
+                font-weight: 500;
+                transform: translateX(100%);
+                transition: transform 0.3s ease;
+            `;
+            notification.textContent = message;
+            
+            document.body.appendChild(notification);
+            
+            // Animate in
             setTimeout(() => {
-                button.innerHTML = '<svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg> Completed!';
-                button.style.background = 'linear-gradient(135deg, #00A651, #20B2AA)';
-                
-                setTimeout(() => {
-                    button.innerHTML = originalHTML;
-                    button.disabled = false;
-                    button.style.background = '';
-                }, 2000);
-            }, 1000);
-        }
-
-        // Logout functionality
-        function handleLogout() {
-            const button = event.target;
-            button.innerHTML = 'Logging out...';
-            button.disabled = true;
+                notification.style.transform = 'translateX(0)';
+            }, 100);
             
+            // Remove after 3 seconds
             setTimeout(() => {
-                button.innerHTML = 'Logout';
-                button.disabled = false;
-            }, 2000);
+                notification.style.transform = 'translateX(100%)';
+                setTimeout(() => {
+                    notification.remove();
+                }, 300);
+            }, 3000);
         }
 
-        // Card menu interactions
-        document.querySelectorAll('.card-menu').forEach(menu => {
-            menu.addEventListener('click', function() {
-                const card = this.closest('.card');
-                card.style.transform = 'scale(0.98)';
-                
-                setTimeout(() => {
-                    card.style.transform = '';
-                }, 150);
-            });
-        });
-
-        // Progress bar animations on load
-        window.addEventListener('load', function() {
-            const progressBars = document.querySelectorAll('.progress-fill');
-            progressBars.forEach(bar => {
-                const width = bar.style.width;
-                bar.style.width = '0%';
-                
-                setTimeout(() => {
-                    bar.style.width = width;
-                }, 500);
-            });
-        });
-
-        // Simulate real-time updates
-        function updateMetrics() {
-            const heroMetric = document.getElementById('heroMetric');
-            let currentDays = parseInt(heroMetric.textContent);
+        // Add goal to DOM (for new goals)
+        function addGoalToDOM(goalData) {
+            const goalsList = document.getElementById('goalsList');
+            const goalElement = document.createElement('article');
+            goalElement.className = 'goal-item';
+            goalElement.setAttribute('data-status', goalData.status);
+            goalElement.setAttribute('data-category', goalData.category);
             
-            // Simulate day increment (for demo purposes, happens every 10 seconds)
-            setInterval(() => {
-                currentDays++;
-                heroMetric.textContent = currentDays;
-            }, 10000);
+            goalElement.innerHTML = `
+                <div class="goal-header">
+                    <div>
+                        <h3 class="goal-title">${goalData.title}</h3>
+                        <div class="goal-category">${goalData.category}</div>
+                    </div>
+                    <div class="goal-actions">
+                        <span class="status-badge status-${goalData.status}">${goalData.status.replace('-', ' ')}</span>
+                        <button class="btn btn-secondary btn-icon" onclick="editGoal(${goalData.id})" title="Edit goal">
+                            <svg viewBox="0 0 24 24">
+                                <path d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25zM20.71 7.04c.39-.39.39-1.02 0-1.41l-2.34-2.34c-.39-.39-1.02-.39-1.41 0l-1.83 1.83 3.75 3.75 1.83-1.83z"/>
+                            </svg>
+                        </button>
+                        <button class="btn btn-danger btn-icon" onclick="deleteGoal(${goalData.id})" title="Delete goal">
+                            <svg viewBox="0 0 24 24">
+                                <path d="M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zM19 4h-3.5l-1-1h-5l-1 1H5v2h14V4z"/>
+                            </svg>
+                        </button>
+                    </div>
+                </div>
+                <p class="goal-description">${goalData.description}</p>
+                <div class="goal-meta">
+                    <div class="goal-meta-item">
+                        <div class="goal-meta-value">${goalData.current}/${goalData.target}</div>
+                        <div class="goal-meta-label">Progress</div>
+                    </div>
+                    <div class="goal-meta-item">
+                        <div class="goal-meta-value">${goalData.deadline || 'No deadline'}</div>
+                        <div class="goal-meta-label">Target Date</div>
+                    </div>
+                    <div class="goal-meta-item">
+                        <div class="goal-meta-value">${goalData.priority}</div>
+                        <div class="goal-meta-label">Priority</div>
+                    </div>
+                </div>
+                <div class="progress-container">
+                    <div class="progress-header">
+                        <span class="progress-label">Goal Progress</span>
+                        <span class="progress-percentage">0%</span>
+                    </div>
+                    <div class="progress-bar">
+                        <div class="progress-fill" style="width: 0%;"></div>
+                    </div>
+                </div>
+            `;
+            
+            goalsList.appendChild(goalElement);
+            
+            // Animate in
+            goalElement.style.opacity = '0';
+            goalElement.style.transform = 'translateY(20px)';
+            setTimeout(() => {
+                goalElement.style.transition = 'all 0.3s ease';
+                goalElement.style.opacity = '1';
+                goalElement.style.transform = 'translateY(0)';
+            }, 100);
         }
 
-        // Initialize real-time updates
-        updateMetrics();
-
-        // Keyboard navigation support
-        document.addEventListener('keydown', function(e) {
-            if (e.key === 'Escape') {
-                // Close any open menus or modals
-                document.querySelectorAll('.card').forEach(card => {
-                    card.style.transform = '';
-                });
+        // Close modal when clicking outside
+        document.addEventListener('click', function(event) {
+            if (event.target.classList.contains('modal')) {
+                event.target.classList.remove('show');
+                editingGoalId = null;
             }
         });
 
-        // Focus management for accessibility
-        document.querySelectorAll('.btn, .nav-link, .card-menu').forEach(element => {
-            element.addEventListener('focus', function() {
-                this.style.outline = '2px solid #7B2CBF';
-                this.style.outlineOffset = '2px';
-            });
+        // Keyboard shortcuts
+        document.addEventListener('keydown', function(event) {
+            if (event.key === 'Escape') {
+                const openModal = document.querySelector('.modal.show');
+                if (openModal) {
+                    openModal.classList.remove('show');
+                    editingGoalId = null;
+                }
+            }
             
-            element.addEventListener('blur', function() {
-                this.style.outline = '';
-                this.style.outlineOffset = '';
-            });
-        });
-
-        // Handle window resize for responsive behavior
-        window.addEventListener('resize', function() {
-            const sidebar = document.getElementById('sidebar');
-            const mainContent = document.getElementById('mainContent');
-            
-            if (window.innerWidth > 1024) {
-                sidebar.classList.remove('mobile-open');
+            if (event.ctrlKey && event.key === 'n') {
+                event.preventDefault();
+                openModal('goalModal');
             }
         });
     </script>
-<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'98ed9cbaa7b5a31b',t:'MTc2MDUxMzQzNy4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'98ee3271766ba31b',t:'MTc2MDUxOTU3MC4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
 </html>
-
